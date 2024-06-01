@@ -245,5 +245,7 @@ def api_reset_metadata():
     print(real_data_df, real_data_file_name, synthetic_data_df, synthetic_data_file_name, meta_data)
     return {"message": "reset everything successfully"}
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+
+if __name__ == '__main__':
+    port = 5000# Use the PORT environment variable if available, default to 5000
+    app.run(host='0.0.0.0', port=port, debug=True)
