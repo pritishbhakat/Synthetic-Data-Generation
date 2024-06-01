@@ -83,6 +83,7 @@ def put_object_url(filename, content_type):
 def api_generate_metadata():
     read_xlsx_from_s3(real_data_file_name)
     get_meta_data()
+    print(meta_data)
     return {'metadata': meta_data.to_dict()}
 
 # extracting excel file from s3 bucket and converting it into pandas data frame
@@ -112,6 +113,7 @@ def get_meta_data():
 def api_update_metadata():
     data = request.json
     modify_meta_data(data)
+    print(meta_data)
     return {'message': 'updated metadata successfully'}
 
 def modify_meta_data(data):
