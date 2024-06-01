@@ -145,7 +145,7 @@ function Metadata() {
           <MetadataTable columns={metadata.columns} onColumnChange={handleColumnChange} />
         </div>
       )}
-          <p className="text-red-500 mt-4">NOTE: Only Single Table Allowed</p>
+          <p className="text-red-500 mt-4">NOTE: Adjust MetaData According To The Uploaded Data For Best Result</p>
           <button
             onClick={handleUpdateMetadata}
             className={`px-6 py-3 bg-green-600 text-white font-semibold rounded-md shadow-md hover:bg-green-700 transition duration-300 ${updating ? 'opacity-50 cursor-not-allowed' : ''} mt-4`}

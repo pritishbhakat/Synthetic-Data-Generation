@@ -101,7 +101,7 @@ function Result() {
             >
               Download
             </button>
-            <label className="mb-4">Delete All Your Data From Our Database</label>
+            <label className="mb-4">Do You Want To Delete All Of Your Data From Our Database</label>
             <button
               onClick={handleDeleteData}
               className={`px-6 py-3 bg-red-600 text-white font-semibold rounded-md shadow-md hover:bg-red-700 transition duration-300 mb-4 ${erase ? 'opacity-50 cursor-not-allowed' : ''}`}

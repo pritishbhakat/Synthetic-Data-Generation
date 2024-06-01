@@ -10,6 +10,7 @@ from sdv.metadata import SingleTableMetadata
 from sdv.single_table import GaussianCopulaSynthesizer
 from sdv.evaluation.single_table import evaluate_quality
 from dotenv import load_dotenv
+from openpyxl import Workbook
 
 load_dotenv()
 
@@ -162,14 +163,48 @@ def synthetize_data(rows):
 
     synthetic_data_df = synthesizer.sample(num_rows=rows)
 
+# old version
+# def convert_and_upload_to_s3(key):
+#     global synthetic_data_df
+#     # Convert synthetic data to DataFrame
+#     df = pd.DataFrame(synthetic_data_df)
+
+#     # Convert DataFrame to Excel format
+#     excel_buffer = io.BytesIO()
+#     df.to_excel(excel_buffer, index=False)
+#     excel_buffer.seek(0)
+
+#     try:
+#         s3.upload_fileobj(excel_buffer, 'sdp-sythetic-data', key)
+#         print("File uploaded successfully to S3 bucket:", 'sdp-sythetic-data', "with key:", key)
+#         return True
+#     except Exception as e:
+#         print("Error uploading file to S3:", e)
+#         return False
+
+# new version
 def convert_and_upload_to_s3(key):
     global synthetic_data_df
     # Convert synthetic data to DataFrame
     df = pd.DataFrame(synthetic_data_df)
 
-    # Convert DataFrame to Excel format
+    # Write DataFrame to Excel in chunks to reduce memory usage
     excel_buffer = io.BytesIO()
-    df.to_excel(excel_buffer, index=False)
+    workbook = Workbook()
+    sheet = workbook.active
+
+    # Write header
+    for col_num, column_title in enumerate(df.columns, 1):
+        cell = sheet.cell(row=1, column=col_num)
+        cell.value = column_title
+
+    # Write data in chunks
+    chunk_size = 1000  # Adjust chunk size based on available memory
+    for chunk in pd.read_csv(io.StringIO(df.to_csv(index=False)), chunksize=chunk_size):
+        for row in chunk.itertuples(index=False, name=None):
+            sheet.append(row)
+
+    workbook.save(excel_buffer)
     excel_buffer.seek(0)
 
     try:
@@ -179,6 +214,7 @@ def convert_and_upload_to_s3(key):
     except Exception as e:
         print("Error uploading file to S3:", e)
         return False
+
 
 # /api/get-synthetic-score
 @app.route('/api/get-synthetic-score', methods=['GET'])
