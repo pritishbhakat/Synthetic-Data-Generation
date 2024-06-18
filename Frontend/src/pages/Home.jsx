@@ -25,6 +25,7 @@ function Home() {
 
     setUploading(true);
     
+    
     try {
       // Get the upload URL from the server
       const response = await axios.post(`${URL}/api/put-object-url`, {
