@@ -33,9 +33,9 @@ function Intro() {
         </div>
       </div>
       <footer className="text-center py-4">
-        <p className="text-sm">
+        {/* <p className="text-sm">
           Developed with <span className="text-red-500">&hearts;</span> by <span className="font-bold">PRiTiSh</span>
-        </p>
+        </p> */}
       </footer>
     </div>
   );
