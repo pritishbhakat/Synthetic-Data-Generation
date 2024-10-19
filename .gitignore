@@ -1,2 +1,6 @@
 Backend/.env
 .gitignore
+Backend/sdv-flask-pem.pem
+Backend/sdv-flask.ppk
+Backend/sdv-instance-key.pem
+
